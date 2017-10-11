@@ -1,43 +1,52 @@
-function makeAjaxcall(methodcall, url, yello){
-var xhr = new XMLHttpRequest();
-xhr.open("GET", url, true);
-xhr.send();
-xhr.onreadystatechange = 
-function(){
-if(xhr.readyState == 4 && xhr.status == 200){
-console.log("Server request is received");
-var resvalue = xhr.responseText;
-var resparse = JSON.parse(resvalue);
-yello(resparse);
-}
-else{
-console.log("Server is loading");
-}
-};
+function makeAjaxcall(methodcall, url){
+ var promiseobj = new Promise(function(resolve,reject){
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.send();
+  xhr.onreadystatechange = function(){
+    if(xhr.readyState == 4){
+      if(xhr.status == 200){
+        console.log("Server request is completed");
+        var resvalue = xhr.responseText;
+        var resparse = JSON.parse(resvalue);
+        resolve(resparse);
+       }
+    else{
+        reject(xhr.status);
+        console.log("request failed");
+      }
+    } else{
+        console.log("Process is going on");
+    }
+  };
+  console.log("Request sent successfully");
+});
+return promiseobj;
 };
 
-//var userid = document.getElementById('userid').value;
-var userdetails = document.getElementById('userdetails');
-var repository = document.getElementById('repository');
+var btn1 = document.getElementById('userdetails');
+var btn2 = document.getElementById('repository');
 
-userdetails.addEventListener("click", function(){
+btn1.addEventListener("click", function(){
 var uservalue = document.getElementById('userid').value;
-var url = "http://api.github.com/users/"+uservalue;
-makeAjaxcall("GET", url, processUserDetailResponse);
+var url = "https://api.github.com/users/"+uservalue;
+makeAjaxcall("GET", url).then(processUserDetailResponse, errorHandler);
 });
 
-repository.addEventListener("click", function(){
+btn2.addEventListener("click", function(){
 var uservalue = document.getElementById('userid').value;
-var url = "http://api.github.com/users/"+uservalue+"/repos";
-makeAjaxcall("GET", url, processRepositoryResponse);
+var url = "https://api.github.com/users/"+uservalue+"/repos";
+makeAjaxcall("GET", url).then(processRepositoryResponse, errorHandler);
 });
 
 function processUserDetailResponse(userData){
-var value = userData;
-console.log(value);
+console.log("user details", userData);
 };
 
-function processRepositoryResponse(repo){
-var valu = repo;
-console.log(valu);
+function processRepositoryResponse(repodata){
+console.log("Repository details", repodata);
+};
+
+function errorHandler(status){
+console.log("status failed",status);
 };
