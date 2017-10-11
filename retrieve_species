@@ -1,0 +1,45 @@
+function makeAjaxcall(methodtype, url){
+  var promiseObj = new Promise(function(resolve,reject){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.send();
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState == 4){
+        if(xhr.status == 200){
+        console.log("Request is completed");
+        var resvalue = xhr.responseText;
+        var resparse = JSON.parse(resvalue);
+        resolve(resparse);
+        } else{
+          reject(xhr.status);
+          console.log("Response failed");
+          }
+      } else{
+        console.log("Server is loading");
+        }
+    };
+  });
+return promiseObj;
+};
+
+var btn = document.getElementById('species');
+
+btn.addEventListener("click", function(){
+var nameValue = document.getElementById('username').value;
+var url = "https://raw.githubusercontent.com/VinodMvd/ideal-spoon/master/myfile.json"
+makeAjaxcall("GET", url).then(processfindspecies, errorHandler);
+});
+
+function processfindspecies(data){
+var nameValue = document.getElementById('username').value;
+for(i=0;i<data.length;i++){
+if(nameValue == data[i].Name){
+var myvalue = data[i].species;
+console.log(myvalue);
+}
+}
+};
+
+function errorHandler(status){
+console.log("Failure", status);
+};
