@@ -1,0 +1,43 @@
+function makeAjaxcall(methodcall, url, yello){
+var xhr = new XMLHttpRequest();
+xhr.open("GET", url, true);
+xhr.send();
+xhr.onreadystatechange = 
+function(){
+if(xhr.readyState == 4 && xhr.status == 200){
+console.log("Server request is received");
+var resvalue = xhr.responseText;
+var resparse = JSON.parse(resvalue);
+yello(resparse);
+}
+else{
+console.log("Server is loading");
+}
+};
+};
+
+//var userid = document.getElementById('userid').value;
+var userdetails = document.getElementById('userdetails');
+var repository = document.getElementById('repository');
+
+userdetails.addEventListener("click", function(){
+var uservalue = document.getElementById('userid').value;
+var url = "http://api.github.com/users/"+uservalue;
+makeAjaxcall("GET", url, processUserDetailResponse);
+});
+
+repository.addEventListener("click", function(){
+var uservalue = document.getElementById('userid').value;
+var url = "http://api.github.com/users/"+uservalue+"/repos";
+makeAjaxcall("GET", url, processRepositoryResponse);
+});
+
+function processUserDetailResponse(userData){
+var value = userData;
+console.log(value);
+};
+
+function processRepositoryResponse(repo){
+var valu = repo;
+console.log(valu);
+};
