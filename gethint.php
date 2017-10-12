@@ -1,3 +1,3 @@
 <?php
-echo 'Thank you'.$_POST['username'] $_POST['password'] ;
+echo 'Thank you'.$_POST['username'].$_POST['password'];
 ?>
