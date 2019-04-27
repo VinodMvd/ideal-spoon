@@ -1,0 +1,26 @@
+{
+        "data1": {
+            "time": "100",
+            "history": "true"
+        },
+        "data2": {
+            "time":"200",
+            "history":false
+        },
+        "data3": {
+            "time":"300",
+            "history":"true"
+        },
+        "data4": {
+            "time":"400",
+            "history":"true"
+        },
+        "data5": {
+            "time":"500",
+            "history":"false"
+        },
+        "data6": {
+            "time":"600",
+            "history":"true"
+        }
+}
