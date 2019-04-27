@@ -5,7 +5,7 @@
         },
         "data2": {
             "time":"200",
-            "history":false
+            "history":"false"
         },
         "data3": {
             "time":"300",
